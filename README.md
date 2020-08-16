@@ -35,6 +35,10 @@ optional arguments:
   --resume RESUME    continues from epoch number
   --cuda             Using GPU to train
 ```
+#### Training Process
+
+![training](https://github.com/Maggiking/PGGAN-PyTorch/blob/master/results/training.gif)
+
 
 ### Testing
 
@@ -63,5 +67,6 @@ optional arguments:
 Sample Results
 ----------------------------
 
+![outputs](https://github.com/Maggiking/PGGAN-PyTorch/blob/master/results/outputs.png)
 
 
