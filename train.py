@@ -73,8 +73,10 @@ iter_num = 0
 D_epoch_losses = []
 G_epoch_losses = []
 
-
-
+if torch.cuda.device_count() > 1:
+	print('Using ', torch.cuda.device_count(), 'GPUs')
+	D_net = nn.DataParallel(D_net)
+	G_net = nn.DataParallel(G_net)
 
 if opt.resume != 0:
 	check_point = torch.load(check_point_dir+'check_point_epoch_%i.pth' % opt.resume)
@@ -95,8 +97,8 @@ try:
 	c = next(x[0] for x in enumerate(schedule[0]) if x[1]>opt.resume)-1
 	batch_size = schedule[1][c]
 	growing = schedule[2][c]
-
-	dataset = datasets.CelebA(data_dir, split='all', transform=transform)
+	dataset = datasets.ImageFolder(data_dir, transform=transform)
+	# dataset = datasets.CelebA(data_dir, split='all', transform=transform)
 	data_loader = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True, num_workers=8)
 
 	tot_iter_num = (len(dataset)/batch_size)
