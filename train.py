@@ -99,7 +99,7 @@ try:
 	growing = schedule[2][c]
 	dataset = datasets.ImageFolder(data_dir, transform=transform)
 	# dataset = datasets.CelebA(data_dir, split='all', transform=transform)
-	data_loader = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True, num_workers=8)
+	data_loader = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True, num_workers=8, drop_last=True)
 
 	tot_iter_num = (len(dataset)/batch_size)
 	G_net.fade_iters = (1-G_net.alpha)/(schedule[0][c+1]-opt.resume)/(2*tot_iter_num)
@@ -113,7 +113,7 @@ except:
 	growing = schedule[2][c]
 
 	dataset = datasets.CelebA(data_dir, split='all', transform=transform)
-	data_loader = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True, num_workers=8)
+	data_loader = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True, num_workers=8, drop_last=True)
 
 	tot_iter_num = (len(dataset)/batch_size)
 	print(schedule[0][c], opt.resume)
@@ -136,7 +136,7 @@ for epoch in range(1+opt.resume, opt.epochs+1):
 			c = schedule[0].index(epoch-1)
 			batch_size = schedule[1][c]
 			growing = schedule[2][0]
-			data_loader = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True, num_workers=8)
+			data_loader = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True, num_workers=8, drop_last=True)
 			tot_iter_num = tot_iter_num = (len(dataset)/batch_size)
 			G_net.growing_net(growing*tot_iter_num)
 			D_net.growing_net(growing*tot_iter_num)
