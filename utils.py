@@ -26,7 +26,7 @@ class Pixel_norm(nn.Module):
 		super().__init__()
 
 	def forward(self, a):
-		b = a / torch.sqrt(torch.sum(a**2, dim=1, keepdim=True)+ 10e-8)
+		b = a / torch.sqrt(torch.mean(a**2, dim=1, keepdim=True)+ 1e-8)
 		return b
 
 

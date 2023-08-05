@@ -24,21 +24,17 @@ if not os.path.exists(opt.out_dir):
 device = torch.device('cuda:0' if (torch.cuda.is_available() and opt.cuda)  else 'cpu')
 latent_size = 512
 
-resume = 40
+
 G_net = Generator(latent_size, opt.out_res).to(device)
-check_point = torch.load('/media/ziwei/Dell Portable Hard Drive/PGGAN/check_points/check_point_epoch_%i.pth' % resume)
-G_net.load_state_dict(check_point['G_net'])
-G_net.depth = check_point['depth']
-G_net.alpha = check_point['alpha']
 
-# G_net.load_state_dict(torch.load(opt.weight))
 
-# noise = torch.randn(opt.num_imgs, latent_size, 1, 1, device=device)
-noise = check_point['fixed_noise']
+G_net.load_state_dict(torch.load(opt.weight))
+G_net.depth = int(np.log2(opt.out_res)) - 1
+noise = torch.randn(opt.num_imgs, latent_size, 1, 1, device=device)
+
 G_net.eval()
 out_imgs = G_net(noise)
-print(G_net.alpha)
-save_image(out_imgs[0], 'out_grid.png', normalize=True)
+save_image(out_imgs, 'out_grid.png', normalize=True)
 
 
 
